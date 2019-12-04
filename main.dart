@@ -7,39 +7,28 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 void main() => runApp(PresenceApp());
 
-class PresenceApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(color: Colors.black),
-        primarySwatch: Colors.blue,
-      ),
-      home: AnimatedSplash(
-        imagePath: 'images/logo-nan.png',
-        home: LoginPage(),
-        duration: 2000,
-        type: AnimatedSplashType.StaticDuration,
-      ),
-    );
-  }
-}
-
 class GraphDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
+    // First 
+    // Je creer mon lien ( c est le lien qui me fournit les data graph)
     final HttpLink httpLink = HttpLink(
       uri: 'https://countries.trevorblades.com/',
     );
 
+    /// Second 
+    // Je creer un client qui excutera mes requettes
+    //avec add de cache
     ValueNotifier<GraphQLClient> client = ValueNotifier(
       GraphQLClient(
         cache: InMemoryCache(),
         link: httpLink,
       ),
     );
+    
+    /// Third 
+    // GraphQLProvider doit envelopper notre materialApp
 
     return GraphQLProvider(
       child: MaterialApp(
@@ -64,6 +53,9 @@ class _HomeGraphQlState extends State<HomeGraphQl> {
       appBar: AppBar(
         title: Text("use graphQl with Tary"),
       ),
+      
+      // Requete
+      //
       body: Query(options: QueryOptions(document: r""" 
             query GetCountries{
                 countries {
